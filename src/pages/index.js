@@ -64,8 +64,8 @@ export function AuthorizeUser({ handleSignOut }) {
     <div className="container-lg relative min-h-screen h-full">
       <div className="wrapper z-50">
       {
-        [1,2,3,4,5,6,7,8,9,10,11,12,13,15,15].map((n => {
-          return <div className={`bubble z-50 b-${n}`}><span class="dot"></span></div>
+        [1,2,3,4,5,6,7,8,9,10,11,12,13,15,15].map(((n,i) => {
+          return <div key={i} className={`bubble z-50 b-${n}`}><span class="dot"></span></div>
         }))
       }
       <div className="w-full h-full min-h-screen">
