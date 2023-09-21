@@ -8,9 +8,10 @@ export default NextAuth({
             name: "Credentials",
             async authorize(credentials, req) {
                 const user = {
-                    email: credentials.email,
-                    password: credentials.password
+                    email: "user@example.com",
+                    password: "1password"
                 }
+                
                 return user? user: null
             }
         })

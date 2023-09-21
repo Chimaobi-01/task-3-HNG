@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <div>
-      {session ? <AuthorizeUser handleSignOut={handleSignOut} /> : <Guest />}
+      {session ? <AuthorizeUser session={session} handleSignOut={handleSignOut} /> : <Guest />}
     </div>
   )
 }
@@ -31,9 +31,12 @@ export function Guest() {
     </div>
   )
 }
-export function AuthorizeUser({ handleSignOut }) {
+export function AuthorizeUser({ handleSignOut, session }) {
   const [selectedFilters, setSelectedFilters] = useState([])
   const [filteredItems, setFilteredItems] = useState(photos)
+
+  
+
 
   const handleFilters = selectedCategory => {
     if (selectedFilters.includes(selectedCategory)) {
