@@ -1,32 +1,26 @@
 import { getSession, signOut, useSession } from "next-auth/react"
-import Link from "next/link"
 import Gallery from "@/components/Gallery"
 import Header from "@/components/Header"
 import { useEffect, useState } from "react"
 import { photos } from "@/components/pictures"
-import {  useRouter } from "next/router"
 import Loading from "@/components/Loading"
 
 
 export default function Home() {
-  const { status, data } = useSession()
-  const router = useRouter()
+  const { data: session, status } = useSession()
+ console.log(status);
 
   const handleSignOut = () => {
     signOut()
   }
-  useEffect(() => {
-    if(status === 'unauthenticated') {
-      router.push('/login')
-    }
-  }, [status])
-  if( status === 'authenticated') {
-    return <AuthorizeUser handleSignOut={handleSignOut} />
+  
+  if(status !== "authenticated"){
+    return <Loading />
   }
 
   return (
     <div>
-     <Loading />
+    <AuthorizeUser handleSignOut={handleSignOut} />
     </div>
   )
 }
@@ -92,19 +86,19 @@ export function AuthorizeUser({ handleSignOut }) {
   )
 }
 
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req })
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false
-//       }
-//     }
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false
+      }
+    }
+  }
 
-//   return {
-//     props: { session }
-//   }
-// }
+  return {
+    props: { session }
+  }
+}

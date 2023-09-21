@@ -45,11 +45,11 @@ export default function Login() {
       redirect: false,
       email: values.email,
       password: values.password,
-      callbackUrl: "/"
+      callbackUrl: process.env.NEXTAUTH_URL
     })
     console.log(status);
     if(status.ok) {
-      router.push(status.url)
+      router.push('/')
     }
   }
 // ***** Sign in ends
