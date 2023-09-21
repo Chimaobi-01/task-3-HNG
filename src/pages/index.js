@@ -4,34 +4,34 @@ import Gallery from "@/components/Gallery"
 import Header from "@/components/Header"
 import { useEffect, useState } from "react"
 import { photos } from "@/components/pictures"
+import {  useRouter } from "next/router"
+import Loading from "@/components/Loading"
 
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { status, data } = useSession()
+  const router = useRouter()
 
   const handleSignOut = () => {
     signOut()
   }
-
+  useEffect(() => {
+    if(status === 'unauthenticated') {
+      router.push('/login')
+    }
+  }, [status])
+  if( status === 'authenticated') {
+    return <AuthorizeUser handleSignOut={handleSignOut} />
+  }
 
   return (
     <div>
-      {session ? <AuthorizeUser session={session} handleSignOut={handleSignOut} /> : <Guest />}
+     <Loading />
     </div>
   )
 }
 
-export function Guest() {
-  return (
-    <div className="container mx-auto text-center py-20">
-      <h1 className="text-4xl font-bold">Guest</h1>
-      <div >
-        <Link href="/login">Sign in</Link>
-      </div>
-    </div>
-  )
-}
-export function AuthorizeUser({ handleSignOut, session }) {
+export function AuthorizeUser({ handleSignOut }) {
   const [selectedFilters, setSelectedFilters] = useState([])
   const [filteredItems, setFilteredItems] = useState(photos)
 
@@ -49,7 +49,7 @@ export function AuthorizeUser({ handleSignOut, session }) {
 
   useEffect(() => {
     filterItems()
-  }, [selectedFilters])
+  }, [])
   const filterItems = () => {
     if (selectedFilters.length > 0) {
       let tempItems = selectedFilters.map((selectedCategory) => {
@@ -68,7 +68,7 @@ export function AuthorizeUser({ handleSignOut, session }) {
       <div className="wrapper z-50">
       {
         [1,2,3,4,5,6,7,8,9,10,11,12,13,15,15].map(((n,i) => {
-          return <div key={i} className={`bubble z-50 b-${n}`}><span class="dot"></span></div>
+          return <div key={i} className={`bubble z-50 b-${n}`}><span className="dot"></span></div>
         }))
       }
       <div className="w-full h-full min-h-screen">
@@ -92,18 +92,19 @@ export function AuthorizeUser({ handleSignOut, session }) {
   )
 }
 
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req })
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false
-      }
-    }
-  }
+// export async function getServerSideProps({ req }) {
+//   const session = await getSession({ req })
 
-  return {
-    props: { session }
-  }
-}
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false
+//       }
+//     }
+//   }
+
+//   return {
+//     props: { session }
+//   }
+// }

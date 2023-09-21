@@ -4,9 +4,9 @@ import Link from "next/link";
 import styles from '@/styles/Form.module.css'
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 
 
 
