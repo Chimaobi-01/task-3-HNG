@@ -70,6 +70,9 @@ export default function Gallery({ filteredItems, setFilteredItems}) {
                         return (
                             <div onClick={() => getPhoto(picture.src)}
                                 draggable
+                                onTouchStart={e => dragItem.current = index}
+                                onTouchMove={e => dragOverItem.current = index}
+                                onTouchEnd={handleSort}
                                 onDragStart={(e) => dragItem.current = index}
                                 onDragEnter={(e) => dragOverItem.current = index}
                                 onDragEnd={handleSort}
