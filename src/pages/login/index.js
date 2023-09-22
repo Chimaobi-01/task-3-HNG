@@ -45,9 +45,7 @@ export default function Login() {
       redirect: false,
       email: values.email,
       password: values.password,
-      callbackUrl: process.env.NEXTAUTH_URL
     })
-    console.log(status);
     if(status.ok) {
       router.push('/')
     }
